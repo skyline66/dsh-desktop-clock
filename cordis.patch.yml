@@ -1,0 +1,5 @@
+# dsh-desktop-clock bundle patch.
+# The plugin is a client-only overlay; the host half is intentionally inert.
+- insert:
+    - id: desktop-clock
+      name: dsh-desktop-clock

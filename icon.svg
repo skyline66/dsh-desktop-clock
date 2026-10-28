@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Desktop Clock icon">
+  <defs>
+    <linearGradient id="bg" x1="24" y1="16" x2="232" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0c3034"/>
+      <stop offset="0.55" stop-color="#071c21"/>
+      <stop offset="1" stop-color="#041316"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="64" y1="48" x2="196" y2="214" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8ff7e8"/>
+      <stop offset="0.48" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <radialGradient id="face" cx="42%" cy="32%" r="75%">
+      <stop offset="0" stop-color="#164448"/>
+      <stop offset="1" stop-color="#07191b"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#001012" flood-opacity="0.65"/>
+    </filter>
+  </defs>
+  <rect width="256" height="256" rx="58" fill="url(#bg)"/>
+  <path d="M32 116c18-47 58-76 104-76 39 0 72 18 92 47" fill="none" stroke="#5eead4" stroke-opacity="0.16" stroke-width="2" stroke-linecap="round"/>
+  <g filter="url(#shadow)">
+    <circle cx="128" cy="128" r="75" fill="url(#face)" stroke="url(#rim)" stroke-width="4"/>
+    <circle cx="128" cy="128" r="63" fill="none" stroke="#8ff7e8" stroke-opacity="0.14" stroke-width="1.5"/>
+  </g>
+  <g stroke="#d7fff9" stroke-linecap="round" opacity="0.9">
+    <path d="M128 61v10" stroke-width="5"/>
+    <path d="M195 128h-10" stroke-width="5"/>
+    <path d="M128 195v-10" stroke-width="5"/>
+    <path d="M61 128h10" stroke-width="5"/>
+    <path d="M175 81l-6 6" stroke-width="3" opacity="0.45"/>
+    <path d="M175 175l-6-6" stroke-width="3" opacity="0.45"/>
+    <path d="M81 175l6-6" stroke-width="3" opacity="0.45"/>
+    <path d="M81 81l6 6" stroke-width="3" opacity="0.45"/>
+  </g>
+  <g filter="url(#glow)">
+    <path d="M128 128V92" stroke="#eaFFFC" stroke-width="9" stroke-linecap="round"/>
+    <path d="M128 128l30-17" stroke="#5eead4" stroke-width="7" stroke-linecap="round"/>
+    <path d="M128 128l-5 42" stroke="#38bdf8" stroke-width="3.2" stroke-linecap="round"/>
+    <circle cx="128" cy="128" r="8" fill="#5eead4"/>
+    <circle cx="128" cy="128" r="3" fill="#07191b"/>
+  </g>
+  <rect x="96" y="221" width="64" height="6" rx="3" fill="#5eead4" fill-opacity="0.28"/>
+</svg>
