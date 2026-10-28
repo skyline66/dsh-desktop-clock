@@ -8,7 +8,6 @@ import {
   SIZE_WIDTH,
   THEMES,
   TIMER_KEY,
-  VIEWS,
   clockAngles,
   clockParts,
   clampPosition,
@@ -747,7 +746,16 @@ export function ClockWidget({ t, locale }) {
       posRef.current = next
       return next
     })
-  }, [settings.size, settings.view, settings.collapsed, settings.visible, settingsOpen])
+  }, [
+    settings.size,
+    settings.view,
+    settings.collapsed,
+    settings.visible,
+    settingsOpen,
+    settings.fontScale,
+    settings.tab,
+    localeId,
+  ])
 
   useEffect(() => {
     return () => {
@@ -916,8 +924,6 @@ export function ClockWidget({ t, locale }) {
     '--dcw-scale': settings.fontScale,
     '--dcw-width': `${SIZE_WIDTH[settings.size]}px`,
   }
-
-  const clockLabel = `${parts.hour}:${parts.minute}${parts.second ? `:${parts.second}` : ''}`
 
   if (!settings.visible) {
     return (

@@ -613,6 +613,7 @@ export const CSS = String.raw`
 .dcw-launcher:hover{ opacity:1; transform:translateY(-1px) scale(1.03); }
 
 .dcw-theme-aurora{
+  color-scheme:dark;
   --dcw-surface:#071c21;
   --dcw-surface-deep:#041316;
   --dcw-surface-2:rgba(255,255,255,.055);
@@ -635,6 +636,7 @@ export const CSS = String.raw`
   --dcw-glow:0 0 52px rgba(94,234,212,.11);
 }
 .dcw-theme-ember{
+  color-scheme:dark;
   --dcw-surface:#24120e;
   --dcw-surface-deep:#170a08;
   --dcw-surface-2:rgba(255,241,230,.055);
@@ -657,11 +659,12 @@ export const CSS = String.raw`
   --dcw-glow:0 0 52px rgba(251,146,60,.12);
 }
 .dcw-theme-linen{
+  color-scheme:light;
   --dcw-surface:#fffaf0;
   --dcw-surface-deep:#f8ecd8;
   --dcw-surface-2:rgba(92,61,34,.055);
   --dcw-ink:#35261b;
-  --dcw-muted:#8b725d;
+  --dcw-muted:#7b624e;
   --dcw-accent:#c2410c;
   --dcw-accent-2:#be123c;
   --dcw-accent-soft:rgba(194,65,12,.11);
@@ -679,6 +682,7 @@ export const CSS = String.raw`
   --dcw-glow:0 0 50px rgba(234,88,12,.10);
 }
 .dcw-theme-graphite{
+  color-scheme:dark;
   --dcw-surface:#14161b;
   --dcw-surface-deep:#0a0c10;
   --dcw-surface-2:rgba(255,255,255,.055);

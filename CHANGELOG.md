@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 — 2026-10-28
+
+- Improved Linen theme text contrast and set native control color schemes per theme.
+- Re-clamped the window when the font scale, active tab, or locale changes.
+
 ## 1.0.1 — 2026-10-28
 
 - Kept the date visible in analog-only mode.
