@@ -1207,7 +1207,11 @@ function AnalogClock({ date, showSeconds, ariaLabel }) {
 function ClockFace({ now, settings, t, localeId }) {
   const parts = clockParts(now, settings.hour12, settings.showSeconds);
   const timeText = `${parts.hour}:${parts.minute}${parts.second ? `:${parts.second}` : ""}${parts.period ? ` ${parts.period}` : ""}`;
-  const dateText = settings.showDate ? formatDateLine(now, localeId) : "";
+  const minuteStamp = Math.floor(now.getTime() / 6e4);
+  const dateText = useMemo(
+    () => settings.showDate ? formatDateLine(now, localeId) : "",
+    [minuteStamp, localeId, settings.showDate]
+  );
   return /* @__PURE__ */ React.createElement("div", { className: "dcw-clock", "data-clock-face": settings.view }, settings.view !== "digital" ? /* @__PURE__ */ React.createElement(
     AnalogClock,
     {
@@ -1395,7 +1399,7 @@ function ClockWidget({ t, locale }) {
   const chimedRef = useRef(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const isRunning = timer.endsAt != null;
-  const fastTick = isRunning || settings.showSeconds && settings.view !== "digital";
+  const fastTick = !settingsOpen && (isRunning || settings.showSeconds && settings.view !== "digital");
   const now = useNow(fastTick ? 200 : 1e3);
   const remaining = Math.min(timer.duration, timerRemaining(timer, now.getTime()));
   const progress = timer.duration > 0 ? Math.max(0, Math.min(1, 1 - remaining / timer.duration)) : 0;
@@ -1571,7 +1575,7 @@ function ClockWidget({ t, locale }) {
     window.addEventListener("pointercancel", onEnd);
   };
   const handlePanelPointerMove = (event) => {
-    if (event.pointerType !== "mouse" || dragRef.current) return;
+    if (settingsOpen || event.pointerType !== "mouse" || dragRef.current) return;
     const panel = panelRef.current;
     if (!panel) return;
     const rect = event.currentTarget.getBoundingClientRect();
@@ -1681,7 +1685,20 @@ function ClockWidget({ t, locale }) {
       },
       /* @__PURE__ */ React.createElement("span", { className: "dcw-grip", "aria-hidden": "true" }),
       /* @__PURE__ */ React.createElement("span", { className: "dcw-title" }, settingsOpen ? t("settings") : t("title"))
-    ), /* @__PURE__ */ React.createElement("div", { className: "dcw-actions" }, settingsOpen ? /* @__PURE__ */ React.createElement("button", { type: "button", className: "dcw-icon-btn", title: t("back"), "aria-label": t("back"), onClick: () => setSettingsOpen(false) }, /* @__PURE__ */ React.createElement(IconBack, null)) : /* @__PURE__ */ React.createElement("button", { type: "button", className: "dcw-icon-btn", title: t("settings"), "aria-label": t("settings"), onClick: () => setSettingsOpen(true) }, /* @__PURE__ */ React.createElement(IconGear, null)), !settingsOpen ? /* @__PURE__ */ React.createElement("button", { type: "button", className: "dcw-icon-btn", title: t("collapse"), "aria-label": t("collapse"), onClick: () => update({ collapsed: true }) }, /* @__PURE__ */ React.createElement(IconMinimize, null)) : null, /* @__PURE__ */ React.createElement("button", { type: "button", className: "dcw-icon-btn", title: t("hide"), "aria-label": t("hide"), onClick: hideWidget }, /* @__PURE__ */ React.createElement(IconEyeOff, null)))),
+    ), /* @__PURE__ */ React.createElement("div", { className: "dcw-actions" }, settingsOpen ? /* @__PURE__ */ React.createElement("button", { type: "button", className: "dcw-icon-btn", title: t("back"), "aria-label": t("back"), onClick: () => setSettingsOpen(false) }, /* @__PURE__ */ React.createElement(IconBack, null)) : /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        type: "button",
+        className: "dcw-icon-btn",
+        title: t("settings"),
+        "aria-label": t("settings"),
+        onClick: () => {
+          resetTilt();
+          setSettingsOpen(true);
+        }
+      },
+      /* @__PURE__ */ React.createElement(IconGear, null)
+    ), !settingsOpen ? /* @__PURE__ */ React.createElement("button", { type: "button", className: "dcw-icon-btn", title: t("collapse"), "aria-label": t("collapse"), onClick: () => update({ collapsed: true }) }, /* @__PURE__ */ React.createElement(IconMinimize, null)) : null, /* @__PURE__ */ React.createElement("button", { type: "button", className: "dcw-icon-btn", title: t("hide"), "aria-label": t("hide"), onClick: hideWidget }, /* @__PURE__ */ React.createElement(IconEyeOff, null)))),
     /* @__PURE__ */ React.createElement("div", { className: "dcw-body" }, settingsOpen ? /* @__PURE__ */ React.createElement(
       SettingsPanel,
       {
@@ -1728,7 +1745,7 @@ function ClockWidget({ t, locale }) {
       /* @__PURE__ */ React.createElement(IconTimer, { size: 14 }),
       " ",
       t("focusTab")
-    ), /* @__PURE__ */ React.createElement("span", { className: "dcw-zone", title: t("localTime") }, /* @__PURE__ */ React.createElement("i", { "aria-hidden": "true" }), zoneText || t("localTime"))) : null
+    ), settings.showZone ? /* @__PURE__ */ React.createElement("span", { className: "dcw-zone", title: t("localTime") }, /* @__PURE__ */ React.createElement("i", { "aria-hidden": "true" }), zoneText || t("localTime")) : null) : null
   ));
 }
 var name = NS;

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1 — 2026-10-28
+
+- Kept the date visible in analog-only mode.
+- Prevented the 3D tilt from moving controls while the settings panel is open.
+- Tightened drag measurement on the collapsed pill.
+- Added package-metadata and JavaScript parse checks to `npm run check`.
+
 ## 1.0.0 — 2026-10-28
 
 - Added a draggable, persistent floating clock to the DSH Web UI.

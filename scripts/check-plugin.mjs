@@ -46,6 +46,23 @@ if (!client.includes(`id: ${JSON.stringify(packageJson.name)}`)) {
 if (!client.includes('window.__ModuleLoader__.load')) {
   failures.push('client.js does not use the DSH module loader')
 }
+try {
+  // Parse-only check: the real bundle reads window and React at runtime.
+  new Function(client)
+} catch (error) {
+  failures.push(`client.js is not valid JavaScript: ${error.message}`)
+}
+
+for (const localeFile of ['locale/en.json', 'locale/zh.json']) {
+  try {
+    const locale = JSON.parse(await readFile(resolve(root, localeFile), 'utf8'))
+    if (!locale.meta?.title || !locale.meta?.description) {
+      failures.push(`${localeFile} lacks meta.title/meta.description`)
+    }
+  } catch (error) {
+    failures.push(`${localeFile} is not valid JSON: ${error.message}`)
+  }
+}
 
 const patch = await readFile(resolve(root, 'cordis.patch.yml'), 'utf8')
 if (!patch.includes(`name: ${packageJson.name}`)) {

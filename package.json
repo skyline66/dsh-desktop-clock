@@ -1,7 +1,7 @@
 {
   "name": "dsh-desktop-clock",
-  "version": "1.0.0",
-  "description": "A polished floating desktop clock for the DeepSeek Harness Web GUI, with analog and digital faces, a focus timer, four themes, and persistent placement.",
+  "version": "1.0.1",
+  "description": "A draggable floating clock for the DeepSeek Harness Web GUI with analog and digital faces, a focus timer, four themes, and persistent placement.",
   "type": "module",
   "license": "MIT",
   "author": "skyline66",

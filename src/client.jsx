@@ -371,7 +371,11 @@ function AnalogClock({ date, showSeconds, ariaLabel }) {
 function ClockFace({ now, settings, t, localeId }) {
   const parts = clockParts(now, settings.hour12, settings.showSeconds)
   const timeText = `${parts.hour}:${parts.minute}${parts.second ? `:${parts.second}` : ''}${parts.period ? ` ${parts.period}` : ''}`
-  const dateText = settings.showDate ? formatDateLine(now, localeId) : ''
+  const minuteStamp = Math.floor(now.getTime() / 60000)
+  const dateText = useMemo(
+    () => (settings.showDate ? formatDateLine(now, localeId) : ''),
+    [minuteStamp, localeId, settings.showDate],
+  )
   return (
     <div className="dcw-clock" data-clock-face={settings.view}>
       {settings.view !== 'digital' ? (
@@ -659,7 +663,7 @@ export function ClockWidget({ t, locale }) {
   const chimedRef = useRef(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const isRunning = timer.endsAt != null
-  const fastTick = isRunning || (settings.showSeconds && settings.view !== 'digital')
+  const fastTick = !settingsOpen && (isRunning || (settings.showSeconds && settings.view !== 'digital'))
   const now = useNow(fastTick ? 200 : 1000)
 
   const remaining = Math.min(timer.duration, timerRemaining(timer, now.getTime()))
@@ -859,7 +863,7 @@ export function ClockWidget({ t, locale }) {
   }
 
   const handlePanelPointerMove = (event) => {
-    if (event.pointerType !== 'mouse' || dragRef.current) return
+    if (settingsOpen || event.pointerType !== 'mouse' || dragRef.current) return
     const panel = panelRef.current
     if (!panel) return
     const rect = event.currentTarget.getBoundingClientRect()
@@ -992,7 +996,16 @@ export function ClockWidget({ t, locale }) {
                 <IconBack />
               </button>
             ) : (
-              <button type="button" className="dcw-icon-btn" title={t('settings')} aria-label={t('settings')} onClick={() => setSettingsOpen(true)}>
+              <button
+                type="button"
+                className="dcw-icon-btn"
+                title={t('settings')}
+                aria-label={t('settings')}
+                onClick={() => {
+                  resetTilt()
+                  setSettingsOpen(true)
+                }}
+              >
                 <IconGear />
               </button>
             )}
@@ -1050,10 +1063,12 @@ export function ClockWidget({ t, locale }) {
             >
               <IconTimer size={14} /> {t('focusTab')}
             </button>
-            <span className="dcw-zone" title={t('localTime')}>
-              <i aria-hidden="true" />
-              {zoneText || t('localTime')}
-            </span>
+            {settings.showZone ? (
+              <span className="dcw-zone" title={t('localTime')}>
+                <i aria-hidden="true" />
+                {zoneText || t('localTime')}
+              </span>
+            ) : null}
           </footer>
         ) : null}
       </section>
